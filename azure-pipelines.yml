@@ -29,7 +29,7 @@ jobs:
 
   #- script: sed -i 's/sudo apt-get -y install ${DEP}/sudo apt-get -y install ${DEP}/'
 
-  - script: . scripts/eosio_build.sh -s EOS -y
+  - script: scripts/eosio_build.sh -s EOS -y
     displayName: 'Build EOSIO'
 
 #resources:
