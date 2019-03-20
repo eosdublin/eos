@@ -1,0 +1,39 @@
+# C/C++ with GCC
+# Build your C/C++ project with GCC using make.
+# Add steps that publish test results, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
+
+trigger:
+  - master
+
+jobs:
+- job:
+  timeoutInMinutes: 0
+  # Based on instructions found here:
+  # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml&viewFallbackFrom=vsts#hosted-linux-preview-pool-deprecation
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+ # - script: |
+ #     sudo apt update
+ #     sudo apt install -f
+ #     sudo apt upgrade
+      #sudo apt-get update
+ #     sudo apt-get install build-essential
+
+  - script: git submodule update --init --recursive
+    displayName: Initialize submodules
+    
+  - script: sed -i 's/"${MEM_MEG}" -lt 7000/"${MEM_MEG}" -lt 4000/g' scripts/eosio_build_ubuntu.sh
+    displayName: Override EOS build script RAM check
+
+  #- script: sed -i 's/sudo apt-get -y install ${DEP}/sudo apt-get -y install ${DEP}/'
+
+  - script: . scripts/eosio_build.sh -s EOS -y
+    displayName: 'Build EOSIO'
+
+#resources:
+#  containers:
+#  - container: eosio_builder
+#    image: ubuntu:18.04
+#container: eosio_builder
