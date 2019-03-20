@@ -14,12 +14,12 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
- # - script: |
- #     sudo apt update
+  - script: |
+      sudo apt update
  #     sudo apt install -f
  #     sudo apt upgrade
       #sudo apt-get update
- #     sudo apt-get install build-essential
+      sudo apt-get install build-essential
 
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
