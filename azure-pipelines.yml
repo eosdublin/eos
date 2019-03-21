@@ -14,8 +14,8 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
-    displayName: Update packages
+  #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
+  #  displayName: Update packages
     
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
