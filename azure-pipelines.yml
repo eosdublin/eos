@@ -22,6 +22,9 @@ jobs:
   - script: sed -i 's/"${MEM_MEG}" -lt 7000/"${MEM_MEG}" -lt 4000/g' scripts/eosio_build_ubuntu.sh
     displayName: Override EOS build script RAM check
 
+  - script: sed -i 's/\.\/bootstrap\.sh --prefix=\$BOOST_ROOT/\.\/bootstrap\.sh --prefix=\$BOOST_ROOT --with-toolset=clang/'
+    displayName: Force Boost compilation with clang
+
   #- script: sed -i 's/sudo apt-get -y install ${DEP}/sudo apt-get -y install ${DEP}/'
 
   - script: scripts/eosio_build.sh -s EOS -y
