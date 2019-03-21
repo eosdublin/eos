@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
 
 trigger:
-  - master
+  - releases/*
 
 jobs:
 - job:
@@ -14,8 +14,9 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - script: sudo apt update && sudo apt-get install build-essential
-
+  - script: sudo apt-get update && sudo apt-get upgrade -y
+    displayName: Update packages
+    
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
     
