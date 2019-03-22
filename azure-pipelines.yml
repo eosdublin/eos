@@ -16,7 +16,12 @@ jobs:
   steps:
   #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
   #  displayName: Update packages
-    
+  
+  - script: |
+      dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
+      dpkg -l | grep libssl-dev
+    displayName: Debug OpenSSL bins
+
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
     
