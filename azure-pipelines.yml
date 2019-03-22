@@ -16,7 +16,11 @@ jobs:
   steps:
   #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
   #  displayName: Update packages
-  
+  - script: | 
+      sudo apt-get purge -y libssl-dev
+      sudo apt-get install -y libssl-dev=1.0.2g-1ubuntu4.15
+    displayName: Downgrade OpenSSL lib
+
   - script: |
       dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
       dpkg -l | grep libssl-dev
