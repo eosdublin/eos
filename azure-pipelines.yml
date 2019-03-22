@@ -17,9 +17,9 @@ jobs:
   #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
   #  displayName: Update packages
   - script: | 
-      sudo apt-get purge -y libssl1.0.0
+      sudo apt-get purge -y libssl1.0.0 libssl-dev
       sudo apt-get update
-      sudo apt-get install -y libssl1.0.0=1.0.2g-1ubuntu4.15
+      sudo apt-get install -y libssl1.0.0=1.0.2g-1ubuntu4.15 libssl-dev=1.0.2g-1ubuntu4.15
     displayName: Downgrade OpenSSL lib
 
   - script: |
@@ -40,6 +40,20 @@ jobs:
 
   - script: scripts/eosio_build.sh -s EOS -y
     displayName: 'Build EOSIO'
+
+#  - script: build/packages/create_package.sh deb
+#    displayName: 'Create DEB package'
+
+#  - task: GithubRelease@0 
+#    displayName: 'Create GitHub Release'      
+#    inputs:
+#      githubConnection: eosdublin
+#      repositoryName: eosdublin/eos
+#      tagSource: manual
+#      tag: $(Build.BuildNumber)      
+#      assets: |
+#           $(Build.ArtifactStagingDirectory)/*.deb
+#           $(Build.ArtifactStagingDirectory)/README.txt
 
 #resources:
 #  containers:
