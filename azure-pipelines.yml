@@ -17,10 +17,9 @@ jobs:
   #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
   #  displayName: Update packages
   - script: | 
-      sudo apt-get purge -y libssl-dev/xenial
+      sudo apt-get purge -y libssl-dev
       sudo apt-get update
-      sudo apt-cache search libssl-dev      
-      sudo apt-get install -y libssl-dev
+      sudo apt-get install -y libssl-dev=1.0.2h-1
     displayName: Downgrade OpenSSL lib
 
   - script: |
