@@ -29,6 +29,10 @@ jobs:
  #     dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
  #     dpkg -l | grep libssl-dev
  #   displayName: Debug OpenSSL bins
+  - script: |
+      su azure_pipelines_sudo
+      sudo apt-get update
+    displayName: Elevate
 
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
