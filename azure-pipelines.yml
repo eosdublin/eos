@@ -25,10 +25,10 @@ jobs:
   #    sudo apt-get install -y libssl1.0.0=1.0.2g-1ubuntu4.15 libssl-dev=1.0.2g-1ubuntu4.15
   #  displayName: Downgrade OpenSSL lib
 
-  - script: |
-      dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
-      dpkg -l | grep libssl-dev
-    displayName: Debug OpenSSL bins
+ # - script: |
+ #     dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
+ #     dpkg -l | grep libssl-dev
+ #   displayName: Debug OpenSSL bins
 
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
