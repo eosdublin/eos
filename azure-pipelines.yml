@@ -31,7 +31,7 @@ jobs:
  #   displayName: Debug OpenSSL bins
   - script: |
       su azure_pipelines_sudo
-      sudo apt-get update
+      apt-get update && apt-get install -y git
     displayName: Elevate
 
   - script: git submodule update --init --recursive
