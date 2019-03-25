@@ -13,14 +13,17 @@ jobs:
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml&viewFallbackFrom=vsts#hosted-linux-preview-pool-deprecation
   pool:
     vmImage: 'ubuntu-16.04'
+  
+  container: 'ubuntu:bionic'
+
   steps:
   #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
   #  displayName: Update packages
-  - script: | 
-      sudo apt-get purge -y libssl1.0.0 libssl-dev
-      sudo apt-get update
-      sudo apt-get install -y libssl1.0.0=1.0.2g-1ubuntu4.15 libssl-dev=1.0.2g-1ubuntu4.15
-    displayName: Downgrade OpenSSL lib
+  #- script: | 
+  #    sudo apt-get purge -y libssl1.0.0 libssl-dev
+  #    sudo apt-get update
+  #    sudo apt-get install -y libssl1.0.0=1.0.2g-1ubuntu4.15 libssl-dev=1.0.2g-1ubuntu4.15
+  #  displayName: Downgrade OpenSSL lib
 
   - script: |
       dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
@@ -33,11 +36,11 @@ jobs:
   - script: sed -i 's/"${MEM_MEG}" -lt 7000/"${MEM_MEG}" -lt 4000/g' scripts/eosio_build_ubuntu.sh
     displayName: Override EOS build script RAM check
 
-  - script: sed -i 's/\.\/bootstrap\.sh --prefix=\$BOOST_ROOT/\.\/bootstrap\.sh --prefix=\$BOOST_ROOT --with-toolset=clang/' scripts/eosio_build_ubuntu.sh
-    displayName: Force Boost compilation with clang
+#  - script: sed -i 's/\.\/bootstrap\.sh --prefix=\$BOOST_ROOT/\.\/bootstrap\.sh --prefix=\$BOOST_ROOT --with-toolset=clang/' scripts/eosio_build_ubuntu.sh
+#    displayName: Force Boost compilation with clang
 
-  - script: sed -i 's/\&\& \$CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=\$HOME \.\. \\/\&\& \$CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=\$HOME -DCMAKE_CXX_COMPILER_ID=clang \.\. \\/' scripts/eosio_build_ubuntu.sh
-    displayName: Force MongoDB compilation with clang
+#  - script: sed -i 's/\&\& \$CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=\$HOME \.\. \\/\&\& \$CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=\$HOME -DCMAKE_CXX_COMPILER_ID=clang \.\. \\/' scripts/eosio_build_ubuntu.sh
+#    displayName: Force MongoDB compilation with clang
 
   #- script: sed -i 's/sudo apt-get -y install ${DEP}/sudo apt-get -y install ${DEP}/'
 
