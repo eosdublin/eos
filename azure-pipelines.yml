@@ -14,7 +14,7 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   
-  container: 'ubuntu:bionic'
+  container: 'eosio/ci:ubuntu18'
 
   steps:
   #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
@@ -29,10 +29,6 @@ jobs:
  #     dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
  #     dpkg -l | grep libssl-dev
  #   displayName: Debug OpenSSL bins
-  - script: |
-      su azure_pipelines_sudo
-      apt-get update && apt-get install -y git
-    displayName: Elevate
 
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
