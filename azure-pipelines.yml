@@ -26,12 +26,15 @@ jobs:
   - script: scripts/eosio_build.sh -s EOS -y
     displayName: Build EOSIO
 
-  - script: chmod u+x build/packages/generate_package.sh && build/packages/generate_package.sh deb
+  - script: |
+      cd $(Build.SourcesDirectory)/build/packages
+      chmod u+x generate_package.sh generate_deb.sh
+      ./generate_package.sh deb
     displayName: Create DEB package
 
   - task: CopyFiles@2
     inputs:
-      contents: 'build/packages/*.deb'
+      contents: '$(Build.SourcesDirectory)/build/packages/*.deb'
       targetFolder: $(Build.ArtifactStagingDirectory)
 
   - task: PublishBuildArtifacts@1
