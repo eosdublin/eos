@@ -10,15 +10,6 @@ jobs:
   container: 'eosio/ci:ubuntu18'
 
   steps:
-  
- # - task: GitHubRelease@0
- #   displayName: 'Edit GitHub Release'
- #   inputs: 
- #     - gitHubConnection: eosdublin 
- #   repositoryName: zenithworks/simplehtml
- #   action: edit
- #   tag: $(draftReleaseTag)
- #   assets: $(Build.ArtifactStagingDirectory)/distributableBinaries/*
 
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
@@ -35,11 +26,18 @@ jobs:
   - script: scripts/eosio_build.sh -s EOS -y
     displayName: Build EOSIO
 
-#  - script: chmod u+x build/packages/generate_package.sh && build/packages/generate_package.sh deb
-#    displayName: Create DEB package
+  - script: chmod u+x build/packages/generate_package.sh && build/packages/generate_package.sh deb
+    displayName: Create DEB package
 
-#  - script: cp build/packages/eosio_1.7.0-1_amd64.deb
-#    displayName: Copy Artifact
+  - task: CopyFiles@2
+    inputs:
+      contents: 'build/packages/*.deb'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: EOSIO Installer
 
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/github-release?view=azure-devops
 #  - task: GithubRelease@0 
@@ -52,9 +50,12 @@ jobs:
 #      assets: |
 #           $(Build.ArtifactStagingDirectory)/*.deb
 #           $(Build.ArtifactStagingDirectory)/README.txt
-
-#resources:
-#  containers:
-#  - container: eosio_builder
-#    image: ubuntu:18.04
-#container: eosio_builder
+  
+ # - task: GitHubRelease@0
+ #   displayName: 'Edit GitHub Release'
+ #   inputs: 
+ #     - gitHubConnection: eosdublin 
+ #   repositoryName: zenithworks/simplehtml
+ #   action: edit
+ #   tag: $(draftReleaseTag)
+ #   assets: $(Build.ArtifactStagingDirectory)/distributableBinaries/*
