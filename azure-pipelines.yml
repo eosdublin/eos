@@ -1,34 +1,24 @@
-# C/C++ with GCC
-# Build your C/C++ project with GCC using make.
-# Add steps that publish test results, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
-
 trigger:
   - releases/*
 
 jobs:
 - job:
   timeoutInMinutes: 0
-  # Based on instructions found here:
-  # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml&viewFallbackFrom=vsts#hosted-linux-preview-pool-deprecation
   pool:
     vmImage: 'ubuntu-16.04'
   
   container: 'eosio/ci:ubuntu18'
 
   steps:
-  #- script: sudo apt-get update -y && sudo ACCEPT_EULA=Y apt-get upgrade -y
-  #  displayName: Update packages
-  #- script: | 
-  #    sudo apt-get purge -y libssl1.0.0 libssl-dev
-  #    sudo apt-get update
-  #    sudo apt-get install -y libssl1.0.0=1.0.2g-1ubuntu4.15 libssl-dev=1.0.2g-1ubuntu4.15
-  #  displayName: Downgrade OpenSSL lib
-
- # - script: |
- #     dpkg -S /usr/lib/x86_64-linux-gnu/libcrypto.a
- #     dpkg -l | grep libssl-dev
- #   displayName: Debug OpenSSL bins
+  
+ # - task: GitHubRelease@0
+ #   displayName: 'Edit GitHub Release'
+ #   inputs: 
+ #     - gitHubConnection: eosdublin 
+ #   repositoryName: zenithworks/simplehtml
+ #   action: edit
+ #   tag: $(draftReleaseTag)
+ #   assets: $(Build.ArtifactStagingDirectory)/distributableBinaries/*
 
   - script: git submodule update --init --recursive
     displayName: Initialize submodules
@@ -42,13 +32,14 @@ jobs:
 #  - script: sed -i 's/\&\& \$CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=\$HOME \.\. \\/\&\& \$CMAKE -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=\$HOME -DCMAKE_CXX_COMPILER_ID=clang \.\. \\/' scripts/eosio_build_ubuntu.sh
 #    displayName: Force MongoDB compilation with clang
 
-  #- script: sed -i 's/sudo apt-get -y install ${DEP}/sudo apt-get -y install ${DEP}/'
-
   - script: scripts/eosio_build.sh -s EOS -y
-    displayName: 'Build EOSIO'
+    displayName: Build EOSIO
 
-#  - script: build/packages/create_package.sh deb
-#    displayName: 'Create DEB package'
+#  - script: chmod u+x build/packages/generate_package.sh && build/packages/generate_package.sh deb
+#    displayName: Create DEB package
+
+#  - script: cp build/packages/eosio_1.7.0-1_amd64.deb
+#    displayName: Copy Artifact
 
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/github-release?view=azure-devops
 #  - task: GithubRelease@0 
